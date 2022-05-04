@@ -1,0 +1,42 @@
+Challenges of Micro-services
+1.Bounded-Context 
+ 
+How to identify what are the boundary of each micro service how to identify what a micro services should do what it should not do for new application its hard to find its not something we can find in one try its important once we get some knowledge we should try to apply that in the existing and new services 
+
+
+2.Configuration 
+Suppose we have 10 service 5 environment and 50 instance (10*5*50=2500)configuration is hard to maintain 
+
+3.Dynamic scaling and  scaling down 
+System should scale up and down properly and we need to distributed the load properly 
+
+4.visibility 
+What happening among the service what's happened to a request a centralised log or console should help us and we should also able to monitor all the services 
+
+5. .Fault Tolerance (pack of cards )
+If service 1 depend on service 5 if the service 5 fails service 1 should be fault tolerant one micro service should not bring down the entire application
+
+
+
+Spring Cloud 
+1. Bounded-Context 
+	-continuous learning and refactoring 
+
+2. Configuration challenge can be solved using 
+	-Spring cloud config server 
+
+3. Dynamic scaling challenge can be solved using by 
+
+	-Ribbon Load Balancing (Client Side LoadBalancing)
+	-Naming Server(Eureka)
+	-Feign(Easier REST Client)
+
+4.Visibility and Monitoring challenge can be solved using
+
+	-Solved using Zipking Distributed Tracing
+	-Netflix api gateway 
+
+5.Fault Tolerance challenge can be solved using
+
+	-Hystrix 
+
