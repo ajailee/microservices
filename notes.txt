@@ -27,16 +27,25 @@ Spring Cloud
 
 3. Dynamic scaling challenge can be solved using by 
 
-	-Ribbon Load Balancing (Client Side LoadBalancing)
+	-Ribbon Load Balancing or Spring cloud Load balancer (Client Side LoadBalancing)
 	-Naming Server(Eureka)
 	-Feign(Easier REST Client)
 
 4.Visibility and Monitoring challenge can be solved using
 
 	-Solved using Zipking Distributed Tracing
-	-Netflix api gateway 
+	-Netflix api gateway or Spring cloud gateway
 
 5.Fault Tolerance challenge can be solved using
 
-	-Hystrix 
+	-Hystrix or Resilience4j
+
+
+Advantage 
+
+Each Micro-services can be in different programming application (Adoption of new technology and practices )
+
+Each service can be scaled separately based on load
+
+Since its smaller services its fast to deploy 
 
