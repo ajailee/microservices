@@ -1,0 +1,77 @@
+version: '3.7'
+
+
+services:
+  spring-cloud-config-server:
+    image: ajailee/microservices-spring-cloud-config-server:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8888:8888"
+    networks:
+      - currency-network
+  
+  naming-server:
+    image: ajailee/microservices-naming-server:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8761:8761"
+    networks:
+      - currency-network
+    depends_on:
+      - spring-cloud-config-server
+    environment:
+      - SPRING.CONFIG.IMPORT=optional:configserver:http://spring-cloud-config-server:8888
+  
+  zipkin:
+    image: openzipkin/zipkin:latest
+    mem_limit: 700m
+    ports:
+      - "9411:9411"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+
+  currency-exchange:
+    image: ajailee/microservices-currency-exchange-service:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8000:8000"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+    environment:
+      - SPRING.CONFIG.IMPORT=optional:configserver:http://spring-cloud-config-server:8888
+      - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-server:8761/eureka
+      - SPRING.ZIPKIN.BASE_URL=http://zipkin:9411/
+  currency-conversion:
+    image: ajailee/microservices-currency-conversion-service:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8100:8100"
+    networks:
+      - currency-network
+    depends_on:
+      - currency-exchange
+    environment:
+      - SPRING.CONFIG.IMPORT=optional:configserver:http://spring-cloud-config-server:8888
+      - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-server:8761/eureka
+      - SPRING.ZIPKIN.BASE_URL=http://zipkin:9411/
+  api-gateway:
+    image: ajailee/microservices-api-gateway:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8765:8765"
+    networks:
+      - currency-network
+    depends_on:
+      - currency-exchange
+      - currency-conversion
+    environment:
+      - SPRING.CONFIG.IMPORT=optional:configserver:http://spring-cloud-config-server:8888
+      - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-server:8761/eureka
+      - SPRING.ZIPKIN.BASE_URL=http://zipkin:9411/
+
+networks:
+  currency-network:
