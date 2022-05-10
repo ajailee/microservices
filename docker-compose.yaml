@@ -9,6 +9,10 @@ services:
       - "8888:8888"
     networks:
       - currency-network
+    volumes:
+       - /Users/ajaylee/microservices/git-localconfig-repo:/data
+    environment:
+       - SPRING.CLOUD.CONFIG.SERVER.GIT.URI=file:///data
   
   naming-server:
     image: ajailee/microservices-naming-server:0.0.1-SNAPSHOT

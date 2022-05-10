@@ -49,3 +49,44 @@ Each service can be scaled separately based on load
 
 Since its smaller services its fast to deploy 
 
+
+
+
+Kubernates 
+Install minikube 
+Install docker 
+
+
+Do the setup of Minikube using official documents 
+
+
+1.To create a deployment 
+
+kubectl create deployment  hello --image=in28min/hello-world-rest-api:0.0.4-SNAPSHOT
+
+2.Expose the deployment to the external world 
+
+kubectl expose deployment hello --type=LoadBalancer --port=8080
+
+
+*************In Minikube**************
+
+3.We need to expose the service using minikube 
+
+minikube tunnel
+
+4.Go to dashboard 
+
+minikube dashboard 
+
+
+5. Go to service and get the link
+
+
+6.Increase the number of pods 
+
+kubectl scale deployment hello --replicas=3 
+
+
+
+
